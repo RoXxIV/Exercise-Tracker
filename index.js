@@ -68,9 +68,10 @@ app.post("/api/users/:_id/exercises", async (req, res) => {
       });
       const exercise = await exerciseObj.save();
       res.json({
-        _id: user.user_id,
+        _id: user._id,
         username: user.username,
-        description: user.description,
+        description: exercises.description,
+        duration: exercises.duration,
         date: new Date(exercise.date).toDateString(),
       });
     }
@@ -93,7 +94,7 @@ app.get("/api/users/:_id/logs", async (req, res) => {
     dateObj["$gte"] = new Date(from);
   }
   if (to) {
-    dateObj["lte"] = new Date(to);
+    dateObj["$lte"] = new Date(to);
   }
   let filter = {
     user_id: id,
